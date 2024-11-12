@@ -90,9 +90,14 @@ TIME_ZONE = "Asia/Kolkata"
 USE_I18N = True
 USE_TZ = True  # Enable timezone support
 
-STATIC_URL = 'static/'
-STATIC_ROOT = BASE_DIR / "static"
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+# Static files (CSS, JavaScript, images)
+STATIC_URL = '/static/'
+
+# Change STATIC_ROOT to a different directory to store the collected static files for production
+STATIC_ROOT = BASE_DIR / 'staticfiles'  # Output folder for static files after collectstatic
+
+# The directory where static files are during development
+STATICFILES_DIRS = [BASE_DIR / "static"]
 
 MEDIA_URL = "media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
