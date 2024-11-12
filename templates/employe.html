@@ -9,7 +9,67 @@
     <title>Employee List</title>
 </head>
 <body>
+<style>
+    
+    body {
+        background-color: #f8f9fa;
+    }
+    .employee-card {
+        border: 1px solid #dee2e6;
+        border-radius: 12px;
+        transition: transform 0.3s, box-shadow 0.3s;
+        background: white;
+        padding: 20px;
+        margin: 15px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+    .employee-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    }
+    .status-indicator {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        margin-right: 5px;
+    }
+    .status-active {
+        background-color: green;
+    }
+    .status-inactive {
+        background-color: red;
+    }
+    .skills-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+    .skills-list li {
+        display: inline-block;
+        background-color: #e9ecef;
+        border-radius: 5px;
+        padding: 5px 10px;
+        margin: 5px;
+        font-size: 14px;
+    }
+    .employee-avatar {
+        width: 80px;
+        height: 80px;
+        object-fit: cover;
+    }
+    h6.card-title {
+        font-weight: bold;
+    }
+    h6 {
+        margin-top: 10px;
+        margin-bottom: 5px;
+    }
+    .action-button {
+        width: 100%;
+        margin-top: 15px;
+    }
 
+</style>
     {% include "navbar.html" %}
 
     <!-- Sidebar and Content -->
