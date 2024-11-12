@@ -68,7 +68,7 @@
           </div>
           <div class="mb-3">
             <label class="text-muted">Employee ID</label>
-            <p class="h6">{{ employee_id }}</p> <!-- Display employee_id -->
+            <p class="h6">{{ employee_id }}</p>  <!-- Display employee_id -->
           </div>
         </div>
       </div>
@@ -128,7 +128,7 @@
 
               <!-- Other Fields -->
               {% for field in form %}
-                {% if field.name not in ["profile_picture", "name", "email"] %}
+                {% if field.name != "profile_picture" and field.name != "name" and field.name != "email" %}
                   <div class="col-md-6">
                     <div class="form-group">
                       <label class="form-label">{{ field.label }}</label>
@@ -152,8 +152,7 @@
       </div>
     </div>
   </div>
-
-  <!-- Back to Dashboard Button -->
+  
   <div class="d-grid gap-2 mt-3">
     <a href="{% url 'home' %}" class="btn btn-outline-secondary"><i class="fas fa-arrow-left"></i> Back to Dashboard</a>
   </div>
