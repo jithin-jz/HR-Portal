@@ -1,0 +1,78 @@
+{% load static %}
+{% include 'navbar.html' %}
+
+<div class="container py-3">
+  <!-- Attendance Management Header -->
+  <div class="text-center mb-4">
+    <h1>Attendance Management</h1>
+    <p class="mb-2">Track your work hours and attendance history</p>
+  </div>
+
+  <!-- Clock In/Out Buttons -->
+  <div class="text-center mb-4">
+    <form method="POST" class="d-inline-block">
+      {% csrf_token %}
+      {% if not attendances or attendances.0.clock_out_time %}
+        <button type="submit" name="clock_in" class="btn btn-success me-2">
+          <i class="fas fa-sign-in-alt"></i> Clock In
+        </button>
+      {% else %}
+        <button type="submit" name="clock_out" class="btn btn-danger">
+          <i class="fas fa-sign-out-alt"></i> Clock Out
+        </button>
+      {% endif %}
+    </form>
+  </div>
+
+  <!-- Attendance History Table -->
+  <div class="card">
+    <div class="card-header bg-primary text-white">
+      <h5 class="card-title mb-0"><i class="fas fa-history"></i> Attendance History</h5>
+    </div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Clock In</th>
+              <th>Clock Out</th>
+              <th>Duration (hours)</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for attendance in attendances %}
+            <tr>
+              <td>{{ attendance.clock_in_time.date }}</td>
+              <td>{{ attendance.clock_in_time|date:"H:i:s" }}</td>
+              <td>
+                {% if attendance.clock_out_time %}
+                  {{ attendance.clock_out_time|date:"H:i:s" }}
+                {% else %}
+                  <span class="text-danger">Still Working</span>
+                {% endif %}
+              </td>
+              <td>
+                {% if attendance.clock_out_time %}
+                  {{ attendance.get_duration }}
+                {% else %}
+                  -
+                {% endif %}
+              </td>
+            </tr>
+            {% empty %}
+            <tr>
+              <td colspan="4" class="text-center">No attendance records found for the past 30 days.</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<!-- Font Awesome -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>

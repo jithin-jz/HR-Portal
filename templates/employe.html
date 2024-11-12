@@ -1,0 +1,61 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{% static 'css/employe.css' %}" rel="stylesheet">
+    <title>Employee List</title>
+</head>
+<body>
+
+    {% include "navbar.html" %}
+
+    <!-- Sidebar and Content -->
+    <div id="layoutSidenav">
+        <div id="layoutSidenav_nav">
+            <nav class="sb-sidenav accordion sb-sidenav-dark">
+                <div class="sb-sidenav-menu">
+                    <!-- Sidebar content (e.g. navigation items) -->
+                </div>
+            </nav>
+        </div>
+
+        <div id="layoutSidenav_content">
+            <main>
+                <div class="container-fluid px-4">
+                   
+                    <!-- Employee List -->
+                    <div id="employeeList" class="row">
+                        {% for profile in profiles %}
+                        <div class="col-md-6 col-lg-4 mb-4 employee-item" data-department="{{ profile.position }}" data-status="{{ profile.status }}">
+                            <div class="card employee-card">
+                                <div class="card-body text-center">
+                                    {% if profile.profile_picture %}
+                                    <img src="{{ profile.profile_picture.url }}" alt="Profile Picture" class="rounded-circle" style="width: 80px; height: 80px; object-fit: cover; border: 2px solid white;">
+                                    {% else %}
+                                    <img src="{% static 'assets/img/man.png' %}" alt="Default Profile" class="rounded-circle" style="width: 80px; height: 80px; object-fit: cover; border: 2px solid white;">
+                                    {% endif %}
+                                    
+                                    <h6 class="card-title">{{ profile.user.username|capfirst }}</h6>
+                                    <p class="card-text text-muted">{{ profile.employee_id }}</p>
+                                    <p class="card-text d-flex align-items-center justify-content-center">
+                                        <span class="badge bg-secondary">{{ profile.position }}</span>
+                                        <span class="status-indicator status-{{ profile.status }}"></span>
+                                        <span>{{ profile.status }}</span>
+                                    </p>
+                                    <a href="{% url 'profile' %}" class="btn btn-primary action-button">View Profile</a>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
