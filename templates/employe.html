@@ -7,115 +7,93 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="{% static 'css/employe.css' %}" rel="stylesheet">
     <title>Employee List</title>
+    <style>
+        /* Basic styling for body and cards */
+        body { background-color: #f8f9fa; }
+        .employee-card {
+            border: 1px solid #dee2e6;
+            border-radius: 12px;
+            background: white;
+            padding: 20px;
+            margin: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .employee-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+        /* Avatar and indicator styling */
+        .employee-avatar { width: 80px; height: 80px; object-fit: cover; border: 2px solid white; }
+        .status-indicator { width: 12px; height: 12px; border-radius: 50%; margin-right: 5px; }
+        .status-active { background-color: green; }
+        .status-inactive { background-color: red; }
+        /* Other styling */
+        .skills-list { list-style: none; padding: 0; margin: 0; }
+        .skills-list li {
+            display: inline-block;
+            background-color: #e9ecef;
+            border-radius: 5px;
+            padding: 5px 10px;
+            margin: 5px;
+            font-size: 14px;
+        }
+        .action-button { width: 100%; margin-top: 15px; }
+        h6.card-title { font-weight: bold; margin: 10px 0 5px; }
+    </style>
 </head>
 <body>
-<style>
-    
-    body {
-        background-color: #f8f9fa;
-    }
-    .employee-card {
-        border: 1px solid #dee2e6;
-        border-radius: 12px;
-        transition: transform 0.3s, box-shadow 0.3s;
-        background: white;
-        padding: 20px;
-        margin: 15px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    }
-    .employee-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-    }
-    .status-indicator {
-        width: 12px;
-        height: 12px;
-        border-radius: 50%;
-        margin-right: 5px;
-    }
-    .status-active {
-        background-color: green;
-    }
-    .status-inactive {
-        background-color: red;
-    }
-    .skills-list {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-    }
-    .skills-list li {
-        display: inline-block;
-        background-color: #e9ecef;
-        border-radius: 5px;
-        padding: 5px 10px;
-        margin: 5px;
-        font-size: 14px;
-    }
-    .employee-avatar {
-        width: 80px;
-        height: 80px;
-        object-fit: cover;
-    }
-    h6.card-title {
-        font-weight: bold;
-    }
-    h6 {
-        margin-top: 10px;
-        margin-bottom: 5px;
-    }
-    .action-button {
-        width: 100%;
-        margin-top: 15px;
-    }
 
-</style>
-    {% include "navbar.html" %}
+{% include "navbar.html" %}
 
-    <!-- Sidebar and Content -->
-    <div id="layoutSidenav">
-        <div id="layoutSidenav_nav">
-            <nav class="sb-sidenav accordion sb-sidenav-dark">
-                <div class="sb-sidenav-menu">
-                    <!-- Sidebar content (e.g. navigation items) -->
-                </div>
-            </nav>
-        </div>
-
-        <div id="layoutSidenav_content">
-            <main>
-                <div class="container-fluid px-4">
-                   
-                    <!-- Employee List -->
-                    <div id="employeeList" class="row">
-                        {% for profile in profiles %}
-                        <div class="col-md-6 col-lg-4 mb-4 employee-item" data-department="{{ profile.position }}" data-status="{{ profile.status }}">
-                            <div class="card employee-card">
-                                <div class="card-body text-center">
-                                    {% if profile.profile_picture %}
-                                    <img src="{{ profile.profile_picture.url }}" alt="Profile Picture" class="rounded-circle" style="width: 80px; height: 80px; object-fit: cover; border: 2px solid white;">
-                                    {% else %}
-                                    <img src="{% static 'assets/img/man.png' %}" alt="Default Profile" class="rounded-circle" style="width: 80px; height: 80px; object-fit: cover; border: 2px solid white;">
-                                    {% endif %}
-                                    
-                                    <h6 class="card-title">{{ profile.user.username|capfirst }}</h6>
-                                    <p class="card-text text-muted">{{ profile.employee_id }}</p>
-                                    <p class="card-text d-flex align-items-center justify-content-center">
-                                        <span class="badge bg-secondary">{{ profile.position }}</span>
-                                        <span class="status-indicator status-{{ profile.status }}"></span>
-                                        <span>{{ profile.status }}</span>
-                                    </p>
-                                    <a href="{% url 'profile' %}" class="btn btn-primary action-button">View Profile</a>
-                                </div>
-                            </div>
-                        </div>
-                        {% endfor %}
-                    </div>
-                </div>
-            </main>
-        </div>
+<div id="layoutSidenav">
+    <!-- Sidebar (optional) -->
+    <div id="layoutSidenav_nav">
+        <nav class="sb-sidenav accordion sb-sidenav-dark">
+            <div class="sb-sidenav-menu">
+                <!-- Add sidebar items here -->
+            </div>
+        </nav>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <!-- Main Content -->
+    <div id="layoutSidenav_content">
+        <main>
+            <div class="container-fluid px-4">
+                <!-- Employee List Section -->
+                <div id="employeeList" class="row">
+                    {% for profile in profiles %}
+                    <div class="col-md-6 col-lg-4 mb-4 employee-item" data-department="{{ profile.position }}" data-status="{{ profile.status }}">
+                        <div class="card employee-card">
+                            <div class="card-body text-center">
+                                {% if profile.profile_picture %}
+                                <img src="{{ profile.profile_picture.url }}" alt="Profile Picture" class="employee-avatar rounded-circle">
+                                {% else %}
+                                <img src="{% static 'assets/img/man.png' %}" alt="Default Profile" class="employee-avatar rounded-circle">
+                                {% endif %}
+                                
+                                <h6 class="card-title">{{ profile.user.username|capfirst }}</h6>
+                                <p class="card-text text-muted">{{ profile.employee_id }}</p>
+                                
+                                <!-- Position and Status -->
+                                <p class="card-text d-flex align-items-center justify-content-center">
+                                    <span class="badge bg-secondary">{{ profile.position }}</span>
+                                    <span class="status-indicator status-{{ profile.status }}"></span>
+                                    <span>{{ profile.status }}</span>
+                                </p>
+                                
+                                <a href="{% url 'profile' %}" class="btn btn-primary action-button">View Profile</a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+<!-- Bootstrap JS for Modal and UI functionality -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
