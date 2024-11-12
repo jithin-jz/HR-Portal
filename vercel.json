@@ -19,6 +19,14 @@
         "src": "/(.*)",
         "dest": "Project/wsgi.py"
       }
-    ]
+    ],
+    "build": {
+      "env": {
+        "DJANGO_SETTINGS_MODULE": "Project.settings"
+      },
+      "commands": [
+        "python3 manage.py collectstatic --noinput"
+      ]
+    }
   }
   
