@@ -4,218 +4,201 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meta</title>
+    <title>Home</title>
+    <link rel="icon" href="{% static 'assets/img/meta.png' %}" type="image/x-icon">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/6033/6033716.png" type="image/x-icon">
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-</head>
-<body>
     <style>
-        body {
-            margin: 0%;
+        /* Root Variables */
+        :root {
+            --navbar-height: 70px;
+            --mobile-navbar-height: 60px;
+            --primary-color: #0d6efd;
+            --hover-color: rgba(255, 255, 255, 0.1);
         }
-        
+
+        /* General Styles */
+        body {
+            min-height: 100vh;
+        }
+
         /* Navbar Styles */
         .navbar {
-            padding: 1rem 0;
-        }
-        
-        .navbar .container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .navbar-nav {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-        
-        .nav-item {
-            display: flex;
-            align-items: center;
-        }
-        
-        .nav-link {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
+            min-height: var(--navbar-height);
             padding: 0.5rem 1rem;
-            border-radius: 5px;
-            transition: background-color 0.3s;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
-        
-        .nav-link:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-        }
-        
-        .nav-link.active {
-            background-color: rgba(255, 255, 255, 0.2);
-        }
-        
-        .navbar-brand {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        
-        /* Original Styles */
-        .welcome-banner {
-            background: linear-gradient(135deg, #4CAF50, #2196F3);
-            color: white;
-            padding: 2rem;
-            border-radius: 10px;
-            margin: 20px 0;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .welcome-banner::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            width: 30%;
-            background: url('/api/placeholder/300/200') center/cover;
-            opacity: 0.2;
-        }
-        
-        .profile-card {
-            border-radius: 15px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        
-        .stat-card {
-            transition: transform 0.3s;
-        }
-        
-        .stat-card:hover {
-            transform: translateY(-5px);
-        }
-        
-        .calendar-container {
-            height: 400px;
-            background: #f8f9fa;
-            border-radius: 10px;
-            padding: 15px;
-        }
-        
-        .chart-container {
-            height: 400px;
-            
-        }
-        
-        .check-buttons {
-            margin-top: 15px;
-        }
-        
+
         .company-logo {
             width: 40px;
             height: 40px;
+            object-fit: contain;
         }
-        
-        /* Additional utility classes */
-        .nav-center {
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-        
-        .card {
-            display: flex;
-            flex-direction: column;
-          }
-          
-          .card-body {
-            flex-grow: 1;
-          }
-          
-          .list-group {
-            flex-grow: 1;
-            overflow-y: auto; /* Allows scrolling if the content exceeds the card height */
-          }
-          
-        
-          .stat-card {
-            height: 200px; /* Fixed height for cards */
-          }
-          .check-in-times {
-            height: 60px; /* Fixed height for check-in/check-out times */
-          }
-    </style>
-    <!-- Centered Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <div class="container position-relative">
-            <!-- Left - Brand -->
-            <a class="navbar-brand" href="{% url 'home' %}">
-                <img src="https://cdn-icons-png.flaticon.com/512/6033/6033716.png" class="company-logo rounded-circle" alt="Company Logo">
-                <span></span>
-            </a>
 
-            <!-- Center - Navigation -->
-            <div class="collapse navbar-collapse justify-content-center nav-center" id="navbarNav">
-                <ul class="navbar-nav">
+        .navbar-brand {
+            padding: 0;
+            margin-right: 2rem;
+        }
+
+        .nav-link {
+            padding: 0.7rem 1.2rem !important;
+            margin: 0 0.2rem;
+            border-radius: 6px;
+            transition: all 0.2s ease-in-out;
+            font-size: 0.9rem;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-link i {
+            margin-right: 0.7rem;
+            font-size: 1rem;
+        }
+
+        .navbar-dark .nav-link {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .navbar-dark .nav-link:hover,
+        .navbar-dark .nav-link:focus {
+            color: #ffffff;
+            background-color: var(--hover-color);
+            transform: translateY(-1px);
+        }
+
+        .navbar-toggler {
+            padding: 0.5rem;
+            border: none;
+            transition: all 0.2s ease;
+        }
+
+        .navbar-toggler:focus {
+            box-shadow: none;
+            outline: none;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 991.98px) {
+            .navbar {
+                min-height: var(--mobile-navbar-height);
+            }
+
+            .navbar-collapse {
+                background-color: var(--primary-color);
+                padding: 1rem;
+                border-radius: 0 0 8px 8px;
+                max-height: calc(100vh - var(--mobile-navbar-height));
+                overflow-y: auto;
+            }
+
+            .nav-link {
+                padding: 0.8rem 1rem !important;
+                border-radius: 4px;
+                margin: 0.2rem 0;
+            }
+
+            .nav-item {
+                width: 100%;
+            }
+
+            .navbar-nav {
+                padding: 0.5rem 0;
+            }
+
+            .navbar-collapse {
+                transform-origin: top;
+                transition: transform 0.3s ease-out;
+            }
+
+            .navbar-collapse.collapsing {
+                transform: scaleY(0);
+            }
+
+            .navbar-collapse.show {
+                transform: scaleY(1);
+            }
+        }
+
+        /* Small screens */
+        @media (max-width: 576px) {
+            .nav-link {
+                font-size: 0.85rem;
+                padding: 0.7rem 0.8rem !important;
+            }
+
+            .nav-link i {
+                margin-right: 0.5rem;
+                font-size: 0.9rem;
+            }
+
+            .company-logo {
+                width: 35px;
+                height: 35px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="/home">
+                <img src="{% static 'assets/img/logo.png' %}" alt="Company Logo" class="company-logo">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mx-auto">
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'home' %}">
-                            <i class="fas fa-home"></i> DASHBOARD
+                            <i class="fas fa-home"></i>DASHBOARD
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'attendance_view' %}">
-                            <i class="fas fa-calendar"></i> ATTENDANCE
+                            <i class="fas fa-calendar"></i>ATTENDANCE
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'employe' %}">
-                            <i class="fas fa-users"></i> EMPLOYEES
+                            <i class="fas fa-users"></i>EMPLOYEES
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'leave' %}">
-                            <i class="fas fa-calendar"></i> LEAVE
+                            <i class="fas fa-calendar"></i>LEAVE
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'profile' %}">
-                            <i class="fas fa-user"></i> PROFILE
+                            <i class="fas fa-user"></i>PROFILE
                         </a>
                     </li>
-
-                    <!-- Only display if the user is authenticated and is an admin -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'login' %}">
+                            <i class="fas fa-sign-out-alt"></i>LOGOUT
+                        </a>
+                    </li>
                     {% if user.is_authenticated and user.is_admin %}
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'admin_dashboard' %}">
-                            <i class="fas fa-chart-bar"></i> ADMIN
+                            <i class="fas fa-chart-bar"></i>ADMIN
                         </a>
                     </li>
                     {% endif %}
                 </ul>
             </div>
-
-            <!-- Right - User Menu -->
-            <div class="d-flex align-items-center gap-3">
-                <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-0">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle text-white" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="{{ user.userprofile.profile_picture.url }}" alt="User Icon" style="width: 40px; height: 40px; border-radius: 100%; border: 1px solid white;" />
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="{% url 'register' %}">Sign up</a></li>
-                            <li><hr class="dropdown-divider" /></li>
-                            <li><a class="dropdown-item" href="{% url 'login' %}">Logout</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-
-            <!-- Mobile Toggle -->
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
         </div>
     </nav>
+
+    <!-- Content container -->
+    <div class="container mt-4">
+        <!-- Your page content goes here -->
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

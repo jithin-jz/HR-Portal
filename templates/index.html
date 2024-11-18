@@ -1,54 +1,8 @@
 {% load static %}
 {% include 'navbar.html' %}
- 
 <style>
   body {
     margin: 0%;
-}
-
-/* Navbar Styles */
-.navbar {
-    padding: 1rem 0;
-}
-
-.navbar .container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.navbar-nav {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-}
-
-.nav-item {
-    display: flex;
-    align-items: center;
-}
-
-.nav-link {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.5rem 1rem;
-    border-radius: 5px;
-    transition: background-color 0.3s;
-}
-
-.nav-link:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-}
-
-.nav-link.active {
-    background-color: rgba(255, 255, 255, 0.2);
-}
-
-.navbar-brand {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
 }
 
 /* Original Styles */
@@ -69,7 +23,6 @@
     right: 0;
     bottom: 0;
     width: 30%;
-    background: url('/api/placeholder/300/200') center/cover;
     opacity: 0.2;
 }
 
@@ -95,7 +48,6 @@
 
 .chart-container {
     height: 400px;
-    
 }
 
 .check-buttons {
@@ -117,24 +69,24 @@
 .card {
     display: flex;
     flex-direction: column;
-  }
-  
-  .card-body {
+}
+
+.card-body {
     flex-grow: 1;
-  }
-  
-  .list-group {
+}
+
+.list-group {
     flex-grow: 1;
     overflow-y: auto; /* Allows scrolling if the content exceeds the card height */
-  }
-  
+}
 
-  .stat-card {
+.stat-card {
     height: 200px; /* Fixed height for cards */
-  }
-  .check-in-times {
+}
+
+.check-in-times {
     height: 60px; /* Fixed height for check-in/check-out times */
-  }
+}
 </style>
 <div class="container py-3">
   <!-- Welcome Banner -->
@@ -169,7 +121,7 @@
     <div class="col-md-3">
       <a href="{% url 'employe' %}" class="card stat-card bg-success text-white text-center text-decoration-none">
         <div class="card-body">
-          <img src="https://cdn-icons-png.flaticon.com/512/1256/1256650.png" alt="Employee Icon" width="80" height="80" />
+          <img src="{% static 'assets/img/team.png' %}" alt="Employee Icon" width="80" height="80" />
           <h5 class="card-title">Employees</h5>
           <h3>{{ total_employees }}</h3>
         </div>
@@ -179,7 +131,7 @@
     <div class="col-md-3">
       <a href="{% url 'leave' %}" class="card stat-card bg-info text-white text-center text-decoration-none">
         <div class="card-body">
-          <img src="https://cdn-icons-png.flaticon.com/512/10722/10722591.png" alt="Leave Icon" width="80" height="80" />
+          <img src="{% static 'assets/img/leave.png' %}" alt="Leave Icon" width="80" height="80" />
           <h5 class="card-title">Leave Balance</h5>
           <h3>{{ remaining_leave }} Days</h3>
         </div>
@@ -189,7 +141,7 @@
     <div class="col-md-3">
       <div class="card stat-card text-white text-center" style="background-color: gray;">
         <div class="card-body">
-          <img src="https://cdn-icons-png.flaticon.com/512/3135/3135706.png" alt="Salary Icon" width="80" height="80" />
+          <img src="{% static 'assets/img/salary.png' %}" alt="Salary Icon" width="80" height="80" />
           <h5 class="card-title">Salary</h5>
           <h3>₹{{ profile.salary|floatformat:-1 }}</h3>
         </div>
@@ -284,4 +236,3 @@
     
     <!-- Bootstrap JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-    
