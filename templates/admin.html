@@ -15,9 +15,8 @@
   </div>
 
   <div class="row">
-    <!-- Left Column: Quick Actions -->
+    <!-- Left Column: Add New Employee -->
     <div class="col-md-12 mb-4">
-      <!-- Add New Employee Card -->
       <div class="card mb-4 shadow-sm">
         <div class="card-header bg-success text-white">
           <h5 class="card-title mb-0"><i class="fas fa-user-plus"></i> Add New Employee</h5>
@@ -59,7 +58,7 @@
     </div>
 
     <!-- Right Column: Main Dashboard Content -->
-    <div class="col-md-12">
+   
       <!-- Employee Management -->
       <div class="card mb-4 shadow-sm">
         <div class="card-header bg-primary text-white">
@@ -132,8 +131,9 @@
           </div>
         </div>
       </div>
-
-      <!-- Right Column: Manage Leave Requests -->
+    
+      
+    <!-- Right Column: Manage Leave Requests -->
     <div class="col-md-12">
       <div class="card mb-4 shadow-sm">
         <div class="card-header bg-warning text-dark">
@@ -203,63 +203,64 @@
   </div>
 </div>
 
-      <!-- Events Management -->
-      <div class="card shadow-sm">
-        <div class="card-header bg-danger text-white">
-          <h5 class="card-title mb-0"><i class="fas fa-calendar-alt"></i> Manage Events</h5>
-        </div>
-        <div class="card-body">
+<!-- Events Management -->
+<div class="card shadow-sm">
+  <div class="card-header bg-danger text-white">
+    <h5 class="card-title mb-0"><i class="fas fa-calendar-alt"></i> Manage Events</h5>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-6">
+        <h6 class="mb-3">Upcoming Events</h6>
+        <ul class="list-group">
+          {% for event in events %}
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <span>
+              <strong>{{ event.name }}</strong><br>
+              <small class="text-muted">{{ event.date }}</small>
+            </span>
+            <a href="{% url 'delete_event' event.id %}" class="btn btn-outline-danger btn-sm">
+              <i class="fas fa-trash-alt"></i>
+            </a>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+      <div class="col-md-6">
+        <h6 class="mb-3">Add New Event</h6>
+        <form method="POST" action="{% url 'events' %}">
+          {% csrf_token %}
+          <div class="mb-3">
+            <input type="text" class="form-control" name="name" placeholder="Event Name" required>
+          </div>
+          <div class="mb-3">
+            <select class="form-select" name="category" required>
+              <option value="" disabled selected>Select Category</option>
+              <option value="meeting">Meeting</option>
+              <option value="deadline">Deadline</option>
+              <option value="holiday">Holiday</option>
+            </select>
+          </div>
           <div class="row">
-            <div class="col-md-6">
-              <h6 class="mb-3">Upcoming Events</h6>
-              <ul class="list-group">
-                {% for event in events %}
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                  <span>
-                    <strong>{{ event.name }}</strong><br>
-                    <small class="text-muted">{{ event.date }}</small>
-                  </span>
-                  <a href="{% url 'delete_event' event.id %}" class="btn btn-outline-danger btn-sm">
-                    <i class="fas fa-trash-alt"></i>
-                  </a>
-                </li>
-                {% endfor %}
-              </ul>
+            <div class="col-md-6 mb-3">
+              <input type="date" class="form-control" name="date" required>
             </div>
-            <div class="col-md-6">
-              <h6 class="mb-3">Add New Event</h6>
-              <form method="POST" action="{% url 'events' %}">
-                {% csrf_token %}
-                <div class="mb-3">
-                  <input type="text" class="form-control" name="name" placeholder="Event Name" required>
-                </div>
-                <div class="mb-3">
-                  <select class="form-select" name="category" required>
-                    <option value="" disabled selected>Select Category</option>
-                    <option value="meeting">Meeting</option>
-                    <option value="deadline">Deadline</option>
-                    <option value="holiday">Holiday</option>
-                  </select>
-                </div>
-                <div class="row">
-                  <div class="col-md-6 mb-3">
-                    <input type="date" class="form-control" name="date" required>
-                  </div>
-                  <div class="col-md-6 mb-3">
-                    <input type="time" class="form-control" name="time" required>
-                  </div>
-                </div>
-                <button type="submit" class="btn btn-danger w-100">
-                  <i class="fas fa-plus-circle"></i> Add Event
-                </button>
-              </form>
+            <div class="col-md-6 mb-3">
+              <input type="time" class="form-control" name="time" required>
             </div>
           </div>
-        </div>
+          <button type="submit" class="btn btn-danger w-100">
+            <i class="fas fa-plus-circle"></i> Add Event
+          </button>
+        </form>
       </div>
     </div>
   </div>
 </div>
+</div>
+</div>
+</div>
+
 
 <!-- Bootstrap JS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
