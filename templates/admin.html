@@ -15,9 +15,8 @@
   </div>
 
   <div class="row">
-    <!-- Left Column: Quick Actions -->
+    <!-- Left Column: Add New Employee -->
     <div class="col-md-12 mb-4">
-      <!-- Add New Employee Card -->
       <div class="card mb-4 shadow-sm">
         <div class="card-header bg-success text-white">
           <h5 class="card-title mb-0"><i class="fas fa-user-plus"></i> Add New Employee</h5>
@@ -58,87 +57,11 @@
       </div>
     </div>
 
-    <!-- Right Column: Main Dashboard Content -->
+    <!-- Right Column: Manage Leave Requests -->
     <div class="col-md-12">
-      <!-- Employee Management -->
-      <div class="card mb-4 shadow-sm">
-        <div class="card-header bg-primary text-white">
-          <h5 class="card-title mb-0"><i class="fas fa-users"></i> Manage Employees</h5>
-        </div>
-        <div class="card-body">
-          <div class="table-responsive">
-            <table class="table table-hover">
-              <thead class="table-light">
-                <tr>
-                  <th>Employee</th>
-                  <th>Position</th>
-                  <th>Salary</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {% for profile in profiles %}
-                <tr>
-                  <td>{{ profile.user.username }}</td>
-                  <td><span class="badge bg-secondary">{{ profile.position }}</span></td>
-                  <td>₹{{ profile.salary|floatformat:-1 }}</td>
-                  <td>
-                    <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editEmployeeModal{{ profile.id }}">
-                      <i class="fas fa-edit"></i> Edit
-                    </button>
-                    <a href="{% url 'delete_employee' profile.id %}" class="btn btn-outline-danger btn-sm ms-2">
-                      <i class="fas fa-trash-alt"></i> Delete
-                    </a>
-                  </td>
-                </tr>
-                <!-- Edit Employee Modal -->
-                <div class="modal fade" id="editEmployeeModal{{ profile.id }}" tabindex="-1" aria-labelledby="editEmployeeLabel" aria-hidden="true">
-                  <div class="modal-dialog">
-                    <div class="modal-content">
-                      <div class="modal-header bg-primary text-white">
-                        <h5 class="modal-title" id="editEmployeeLabel">Edit Employee</h5>
-                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                      </div>
-                      <div class="modal-body">
-                        <form method="POST" action="{% url 'edit_employee' profile.id %}">
-                          {% csrf_token %}
-                          <div class="mb-3">
-                            <label for="position" class="form-label">Position</label>
-                            <select class="form-select" id="position" name="position" required>
-                              <option value="developer" {% if profile.position == 'developer' %}selected{% endif %}>Developer</option>
-                              <option value="uiux" {% if profile.position == 'uiux' %}selected{% endif %}>UI/UX Designer</option>
-                              <option value="manager" {% if profile.position == 'manager' %}selected{% endif %}>Manager</option>
-                              <option value="analyst" {% if profile.position == 'analyst' %}selected{% endif %}>Analyst</option>
-                            </select>
-                          </div>
-                          <div class="mb-3">
-                            <label for="salary" class="form-label">Salary</label>
-                            <div class="input-group">
-                              <span class="input-group-text">₹</span>
-                              <input type="number" class="form-control" id="salary" name="salary" value="{{ profile.salary }}" required>
-                            </div>
-                          </div>
-                          <button type="submit" class="btn btn-primary w-100">
-                            <i class="fas fa-save"></i> Save Changes
-                          </button>
-                        </form>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                {% endfor %}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-
-      <!-- Leave Approval Section -->
       <div class="card mb-4 shadow-sm">
         <div class="card-header bg-warning text-dark">
-          <h5 class="card-title mb-0">
-            <i class="fas fa-calendar-alt"></i> Manage Leave Requests
-          </h5>
+          <h5 class="card-title mb-0"><i class="fas fa-calendar-alt"></i> Manage Leave Requests</h5>
         </div>
         <div class="card-body">
           <div class="table-responsive">
@@ -165,69 +88,38 @@
                     <a href="{% url 'approve_leave' leave.id %}" class="btn btn-outline-success btn-sm">
                       <i class="fas fa-check"></i> Approve
                     </a>
-                    <a href="{% url 'reject_leave' leave.id %}" class="btn btn-outline-danger btn-sm">
+                    <button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#rejectModal{{ leave.id }}">
                       <i class="fas fa-times"></i> Reject
-                    </a>
+                    </button>
                   </td>
                 </tr>
+
+                <!-- Reject Leave Modal -->
+                <div class="modal fade" id="rejectModal{{ leave.id }}" tabindex="-1" aria-labelledby="rejectModalLabel" aria-hidden="true">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header bg-danger text-white">
+                        <h5 class="modal-title" id="rejectModalLabel">Reject Leave Request</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body">
+                        <form method="POST" action="{% url 'reject_leave' leave.id %}">
+                          {% csrf_token %}
+                          <div class="mb-3">
+                            <label for="rejection_reason" class="form-label">Reason for Rejection</label>
+                            <textarea class="form-control" id="rejection_reason" name="rejection_reason" rows="4" required></textarea>
+                          </div>
+                          <button type="submit" class="btn btn-danger w-100">
+                            <i class="fas fa-times"></i> Reject Leave
+                          </button>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
                 {% endfor %}
               </tbody>
             </table>
-          </div>
-        </div>
-      </div>
-
-      <!-- Events Management -->
-      <div class="card shadow-sm">
-        <div class="card-header bg-danger text-white">
-          <h5 class="card-title mb-0"><i class="fas fa-calendar-alt"></i> Manage Events</h5>
-        </div>
-        <div class="card-body">
-          <div class="row">
-            <div class="col-md-6">
-              <h6 class="mb-3">Upcoming Events</h6>
-              <ul class="list-group">
-                {% for event in events %}
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                  <span>
-                    <strong>{{ event.name }}</strong><br>
-                    <small class="text-muted">{{ event.date }}</small>
-                  </span>
-                  <a href="{% url 'delete_event' event.id %}" class="btn btn-outline-danger btn-sm">
-                    <i class="fas fa-trash-alt"></i>
-                  </a>
-                </li>
-                {% endfor %}
-              </ul>
-            </div>
-            <div class="col-md-6">
-              <h6 class="mb-3">Add New Event</h6>
-              <form method="POST" action="{% url 'events' %}">
-                {% csrf_token %}
-                <div class="mb-3">
-                  <input type="text" class="form-control" name="name" placeholder="Event Name" required>
-                </div>
-                <div class="mb-3">
-                  <select class="form-select" name="category" required>
-                    <option value="" disabled selected>Select Category</option>
-                    <option value="meeting">Meeting</option>
-                    <option value="deadline">Deadline</option>
-                    <option value="holiday">Holiday</option>
-                  </select>
-                </div>
-                <div class="row">
-                  <div class="col-md-6 mb-3">
-                    <input type="date" class="form-control" name="date" required>
-                  </div>
-                  <div class="col-md-6 mb-3">
-                    <input type="time" class="form-control" name="time" required>
-                  </div>
-                </div>
-                <button type="submit" class="btn btn-danger w-100">
-                  <i class="fas fa-plus-circle"></i> Add Event
-                </button>
-              </form>
-            </div>
           </div>
         </div>
       </div>

@@ -8,6 +8,7 @@ urlpatterns = [
     path('delete_employee/<int:profile_id>/', views.delete_employee, name='delete_employee'),
     path('approve_leave/<int:leave_id>/', views.approve_leave, name='approve_leave'),
     path('reject_leave/<int:leave_id>/', views.reject_leave, name='reject_leave'),
+    path('reject_leave/<int:leave_id>/', views.reject_leave, name='reject_leave'),
     path('events/delete/<int:event_id>/', views.delete_event, name='delete_event'),
     path('events/', views.events, name='events'),
 ]

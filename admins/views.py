@@ -75,10 +75,20 @@ def approve_leave(request, leave_id):
 @login_required
 def reject_leave(request, leave_id):
     leave = get_object_or_404(Leave, id=leave_id)
-    leave.status = 'rejected'
-    leave.save()
-    messages.error(request, f"Leave request for {leave.user.username} has been rejected.")
-    return redirect('admin_dashboard')
+    
+    if request.method == 'POST':
+        rejection_reason = request.POST.get('rejection_reason')
+        
+        if rejection_reason:
+            leave.status = 'rejected'
+            leave.rejection_reason = rejection_reason
+            leave.save()
+            messages.error(request, f"Leave request for {leave.user.username} has been rejected with a reason.")
+        else:
+            messages.error(request, "Rejection reason is required.")
+        return redirect('admin_dashboard')
+
+    return render(request, 'admin.html', {'leave': leave})
 
 @login_required
 def events(request):

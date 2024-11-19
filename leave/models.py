@@ -21,6 +21,7 @@ class Leave(models.Model):
     reason = models.TextField()
     remaining_leave = models.IntegerField(default=10)  # Default leave balance is 10 days
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='pending')
+    rejection_reason = models.TextField(null=True, blank=True)  # Add rejection_reason field
 
     def calculate_days(self):
         """Calculates the number of leave days."""
@@ -28,3 +29,4 @@ class Leave(models.Model):
 
     def __str__(self):
         return f'{self.user} - {self.leave_type}'
+

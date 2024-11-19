@@ -8,32 +8,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
     <title>Apply for Leave</title>
-    <style>
-        body {
-            background-color: #f8f9fa;
-        }
-        .container {
-            max-width: 800px;
-        }
-        .card {
-            border: none;
-            border-radius: 15px;
-            box-shadow: 0 0 20px rgba(0,0,0,0.1);
-        }
-        .card-header {
-            background-color: #2196F3;
-            color: white;
-            border-radius: 15px 15px 0 0;
-        }
-        .btn-primary {
-            background-color: #2196F3;
-            border-color: #2196F3;
-        }
-        .btn-primary:hover {
-            background-color: #1976D2;
-            border-color: #1976D2;
-        }
-    </style>
 </head>
 <body>
     {% include 'navbar.html' %}
@@ -56,6 +30,17 @@
                             <option value="other">Other</option>
                         </select>
                     </div>
+                    <div class="mb-3">
+                        <label for="leaveReason" class="form-label">Reason for Leave</label>
+                        <select class="form-select" id="leaveReason" name="leaveReason" required>
+                            <option value="">Select a reason</option>
+                            <option value="medical">Medical</option>
+                            <option value="family">Family Emergency</option>
+                            <option value="vacation">Vacation</option>
+                            <option value="personal">Personal</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label for="startDate" class="form-label">Start Date</label>
@@ -67,8 +52,8 @@
                         </div>
                     </div>
                     <div class="mb-3">
-                        <label for="reason" class="form-label">Reason for Leave</label>
-                        <textarea class="form-control" id="reason" name="reason" rows="3" required></textarea>
+                        <label for="reason" class="form-label">Additional Reason (if any)</label>
+                        <textarea class="form-control" id="reason" name="reason" rows="3"></textarea>
                     </div>
                     <div class="d-grid gap-2">
                         <button type="submit" class="btn btn-primary">
@@ -97,6 +82,7 @@
                                 <th>Period</th>
                                 <th>Reason</th>
                                 <th>Status</th>
+                                <th>Rejection Reason</th> <!-- Added column for rejection reason -->
                             </tr>
                         </thead>
                         <tbody>
@@ -113,6 +99,13 @@
                                         {% endif %}">
                                         {{ leave.get_status_display }}
                                     </span>
+                                </td>
+                                <td>
+                                    {% if leave.status == 'rejected' %}
+                                        {{ leave.rejection_reason }} <!-- Display rejection reason -->
+                                    {% else %}
+                                        N/A
+                                    {% endif %}
                                 </td>
                             </tr>
                             {% endfor %}
