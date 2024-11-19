@@ -12,3 +12,19 @@ class Events(models.Model):
     def __str__(self):
         return f"{self.name} - {self.date} {self.time.strftime('%H:%M')}"
 
+
+class Leaves(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    start_date = models.DateField()
+    end_date = models.DateField()
+    reason = models.TextField()
+    status = models.CharField(max_length=20, default='pending', choices=[
+        ('pending', 'Pending'),
+        ('approved', 'Approved'),
+        ('rejected', 'Rejected'),
+    ])
+    rejection_reason = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return f"{self.user.username} - {self.status}"
+    
