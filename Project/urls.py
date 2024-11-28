@@ -11,6 +11,8 @@ urlpatterns = [
     path('profiles/', include('profiles.urls')),
     path('admins/', include('admins.urls')), 
     path('checkin/', include('checkin.urls')),
+    path('expense/', include('expense.urls')),
+    
 ]
 
 if settings.DEBUG:
