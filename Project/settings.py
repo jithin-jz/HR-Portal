@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     'admins',
     'checkin',
     'expense',
+    'assign',
 ]
 
 # Middleware for security, sessions, etc.
