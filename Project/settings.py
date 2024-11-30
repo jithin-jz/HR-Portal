@@ -16,7 +16,6 @@ ALLOWED_HOSTS = ['.vercel.app']
 
 # Installed apps
 INSTALLED_APPS = [
-    'django_daisy',
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
