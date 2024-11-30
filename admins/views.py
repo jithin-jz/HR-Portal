@@ -160,6 +160,31 @@ def delete_event(request, event_id):
     return redirect('admin_dashboard')
 
 
+#chat
+from django.shortcuts import render, get_object_or_404
+from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
+from app.models import UserProfile
+from .models import Message
 
+@login_required
+def chat(request, user_id=None):
+    if user_id:
+        recipient = get_object_or_404(User, id=user_id)
+        if request.method == 'POST':
+            content = request.POST.get('content')
+            if content:
+                Message.objects.create(sender=request.user, recipient=recipient, content=content)
+                return JsonResponse({'success': True, 'message': 'Message sent successfully.'})
 
+        # Retrieve messages between the logged-in user and the recipient
+        messages = Message.objects.filter(
+            (Q(sender=request.user) & Q(recipient=recipient)) |
+            (Q(sender=recipient) & Q(recipient=request.user))
+        ).order_by('timestamp')
+        return render(request, 'chat.html', {'messages': messages, 'recipient': recipient})
+
+    # If no specific user is selected, list all employees
+    employees = UserProfile.objects.exclude(user=request.user)
+    return render(request, 'chat.html', {'employees': employees})
 

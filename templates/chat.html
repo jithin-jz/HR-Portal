@@ -1,0 +1,83 @@
+{% load static %}
+{% include 'navbar.html' %}
+{% block content %}
+<div class="container py-4">
+
+  {% if recipient %}
+    <!-- Chat Window -->
+    <div id="chatWindow" class="chat-window border rounded-3 p-3 mb-4 shadow-sm bg-light">
+      {% for message in messages %}
+      <div class="message {% if message.sender == request.user %}text-end{% else %}text-start{% endif %} mb-3">
+        <p>
+          <strong>{{ message.sender.username }}</strong>: {{ message.content }}
+          <span class="text-muted small">{{ message.timestamp|date:"H:i" }}</span>
+        </p>
+      </div>
+      {% endfor %}
+    </div>
+
+    <!-- Send Message Form -->
+    <form method="POST" id="sendMessageForm" class="d-flex">
+      {% csrf_token %}
+      <input type="text" name="content" class="form-control me-2" placeholder="Type a message..." required>
+      <button type="submit" class="btn btn-primary">Send</button>
+    </form>
+
+  {% else %}
+    <!-- User Selection -->
+    <ul class="list-group">
+      {% for employee in employees %}
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        <a href="{% url 'chat_with_user' employee.user.id %}" class="text-decoration-none text-dark">
+          {{ employee.user.username }} - {{ employee.position }}
+        </a>
+      </li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+</div>
+
+<script>
+  const chatWindow = document.getElementById('chatWindow');
+  
+  if (chatWindow) {
+    async function fetchMessages() {
+      try {
+        const response = await fetch(window.location.href, {
+          headers: { 'X-Requested-With': 'XMLHttpRequest' }
+        });
+        if (response.ok) {
+          const html = await response.text();
+          const parser = new DOMParser();
+          const doc = parser.parseFromString(html, 'text/html');
+          const newChatWindow = doc.getElementById('chatWindow');
+          if (newChatWindow) {
+            chatWindow.innerHTML = newChatWindow.innerHTML;
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching messages:', error);
+      }
+    }
+
+    setInterval(fetchMessages, 2000);
+  }
+
+  const form = document.getElementById('sendMessageForm');
+  if (form) {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = new FormData(form);
+      const response = await fetch(form.action, {
+        method: 'POST',
+        body: formData,
+        headers: { 'X-Requested-With': 'XMLHttpRequest', 'X-CSRFToken': '{{ csrf_token }}' }
+      });
+      if (response.ok) {
+        form.reset();
+        fetchMessages(); // Fetch new messages immediately after sending
+      }
+    });
+  }
+</script>
+{% endblock %}
