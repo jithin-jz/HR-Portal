@@ -9,7 +9,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config('SECRET_KEY')
 
 # Debug mode (don't use in production)
-DEBUG = config('DEBUG', default=False, cast=bool)
+DEBUG = False
 
 # Allowed hosts for production
 ALLOWED_HOSTS = ['.vercel.app']
